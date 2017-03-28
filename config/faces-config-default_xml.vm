@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+    http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+	version="2.0">
+	<application>
+		<!-- Added default language and supported languages -->
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>en</supported-locale>
+			<supported-locale>fr_FR</supported-locale>
+		</locale-config>
+
+		<!-- URL of the package containing the messages[ENTITY]_[LANGUAGE].properties -->
+		<resource-bundle>
+			<base-name>messages.messages</base-name>
+			<var>msg</var>
+		</resource-bundle>
+
+	#foreach( $entity in $selectedEntities )
+	<resource-bundle>
+			<base-name>messages.messages${entity.name}</base-name>
+			<var>msg${entity.name}</var>
+		</resource-bundle>
+	#end
+
+	</application>
+
+	<!-- Navigation in Home Page -->
+	<navigation-rule>
+		<from-view-id>/views/index.xhtml</from-view-id>
+	#foreach( $entity in $selectedEntities )
+#set( $uncapitalizedEntityName = ${fn.uncapitalize($entity.name)})
+	<navigation-case>
+			<from-outcome>${uncapitalizedEntityName}-list</from-outcome>
+			<to-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}List.xhtml</to-view-id>
+		</navigation-case>
+	#end
+</navigation-rule>
+
+#foreach( $entity in $selectedEntities )
+#set( $uncapitalizedEntityName = ${fn.uncapitalize($entity.name)})
+	<!-- Navigation in ${entity.name} List -->
+	<navigation-rule>
+		<from-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}List.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>${uncapitalizedEntityName}-list</from-outcome>
+			<to-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}List.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>${uncapitalizedEntityName}-manage</from-outcome>
+			<to-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}Manage.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<!-- Navigation in ${entity.name} Form -->
+	<navigation-rule>
+		<from-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}Manage.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>${uncapitalizedEntityName}-list</from-outcome>
+			<to-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}List.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+#foreach( $attribut in $entity.attributes )
+#if( $attribut.isFK() )
+		<navigation-case>
+			<from-outcome>${fn.uncapitalize($attribut.referencedEntityName)}-manage</from-outcome>
+			<to-view-id>/views/default/${attribut.referencedEntityName}/${fn.uncapitalize($attribut.referencedEntityName)}Manage.xhtml</to-view-id>
+		</navigation-case>
+#end
+#end
+	</navigation-rule>
+
+
+#end
+</faces-config>

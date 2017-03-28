@@ -29,5 +29,5 @@ list_$fn.uncapitalize($entity.name)_title=List of ${entity.name}
 #end
 
 ${SHARP}----- alert 
-createOK=élement create 
-updateOK=élement update
+createOK=element create 
+updateOK=element update
