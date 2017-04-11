@@ -7,21 +7,21 @@
 #set( $pkElementsGetters = $fn.argumentsListWithGetter($uncapitalizedEntityName, $entity.keyAttributes) )
 ## --- Primary Key arguments, e.g. "customerCode, bookId"
 #set( $pkElementsVariables = $fn.argumentsList($entity.keyAttributes) )
-## --- Primary Key request path, e.g. "{customerCode}/{bookId}"
-#set( $pkPath = "" )
+## --- Primary Key request path, e.g. "customerCode && bookId != null"
+#set( $pkNotNull = "" )
 #foreach( $attribute in $entity.keyAttributes )
 #if( $foreach.count > 1 )
-#set( $pkPath = "${pkPath}/" )
+#set( $pkNotNull = "${pkNotNull} && " )
 #end
-#set( $pkPath = "${pkPath}{${attribute.name}}" )
+#set( $pkNotNull = "${pkNotNull}${attribute.name}#if( $attribute.type == 'Integer' ) != null#end" )
 #end
-## --- Primary Key Path Variables, e.g. "@PathVariable("customerCode") String customerCode, @PathVariable("bookId") Integer bookId"
+## --- Primary Key Path Variables, e.g. "String customerCode, Integer bookId"
 #set( $pkPathVariables = "" )
 #foreach( $attribute in $entity.keyAttributes )
 #if( $foreach.count > 1 )
 #set( $pkPathVariables = "${pkPathVariables}, " )
 #end
-#set( $pkPathVariables = "${pkPathVariables}@PathVariable(${QUOT}${attribute.name}${QUOT}) $attribute.type $attribute.name" )
+#set( $pkPathVariables = "${pkPathVariables}$attribute.type $attribute.name" )
 #end
 ##
 ## --- Referenced entities (e.g. "Book", "Country", "Author", ... )
@@ -47,7 +47,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.StringUtils;
 import org.demo.commons.FacesUtils;
 
 //--- Entities
@@ -112,10 +111,17 @@ public class ${entity.name}Controller implements Serializable {
 		
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		this.list${entity.name} = this.${uncapitalizedEntityName}Service.findAll();
-		String id${entity.name}Param = params.get("id${entity.name}Param");
-		if (StringUtils.isNotBlank(id${entity.name}Param)) {
+#foreach( $key in $entity.keyAttributes )
+#if( ${key.type} == 'Integer' )
+		Integer ${key.name} = Integer.parseInt(params.get("${key.name}"));
+#else
+		${key.type} ${key.name} = params.get("${key.name}");
+#end
+#end
+		
+		if (${pkNotNull}) {
 			// update mode
-			this.${uncapitalizedEntityName}Courant = this.${uncapitalizedEntityName}Service.findById(Integer.parseInt(id${entity.name}Param));
+			this.${uncapitalizedEntityName}Courant = this.${uncapitalizedEntityName}Service.findById(${pkElementsVariables});
 			this.setUpdate(true);
 		} else {
 			// creation mode
@@ -173,12 +179,9 @@ public class ${entity.name}Controller implements Serializable {
 	 * @param ${pkElementsVariables}
 	 * @return link to redirect after delete
 	 */
-	public String delete${entity.name}ById(Integer ${pkElementsVariables}) {
-		if (${pkElementsVariables} != null) {
-			this.${uncapitalizedEntityName}Service.deleteById(${pkElementsVariables});
-			return "${uncapitalizedEntityName}-list";
-		}
-		return "";
+	public String delete${entity.name}ById(${pkPathVariables}) {
+		this.${uncapitalizedEntityName}Service.deleteById(${pkElementsVariables});
+		return "${uncapitalizedEntityName}-list";
 	}
 
 	// Getter & Setter
