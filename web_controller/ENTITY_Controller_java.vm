@@ -40,8 +40,6 @@ package ${target.javaPackageFromFolder($SRC)};
 import java.util.LinkedList;
 #end
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -49,9 +47,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang.StringUtils;
-import org.demo.persistence.commons.PersistenceServiceProvider;
-import org.demo.formation.web.jsf.util.FacesUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.demo.commons.FacesUtils;
 
 //--- Entities
 import ${recordPackage}.${entity.name}Record;
@@ -100,7 +97,7 @@ public class ${entity.name}Controller implements Serializable {
 	//--- atribut to use combo-box "items"
 	private static List<${ref}ListItem> list${ref}ListItem;
 #end
-
+#end
 	//--------------------------------------------------------------------------------------
 	/**
 	 * Default constructor
@@ -211,6 +208,4 @@ public class ${entity.name}Controller implements Serializable {
 		return list${ref}ListItem;
 	}
 #end
-
-
 }
