@@ -55,7 +55,7 @@
 		</navigation-case>
 	</navigation-rule>
 
-	<!-- Navigation in ${entity.name} Form -->
+	<!-- Navigation in ${entity.name} Manage -->
 	<navigation-rule>
 		<from-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}Manage.xhtml</from-view-id>
 		<navigation-case>

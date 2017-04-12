@@ -15,7 +15,6 @@ home_wel=welcome
 language=language
 
 ${SHARP}----- Global variable 
-id=Id
 edit=Edit
 delete=Delete
 create=Create

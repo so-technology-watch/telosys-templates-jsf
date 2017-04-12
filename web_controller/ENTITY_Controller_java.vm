@@ -3,18 +3,21 @@
 ##
 #set( $recordClass = "${entity.name}Record" )
 #set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
-## --- Primary Key arguments by getters, e.g. "review.getCustomerCode(), review.getBookId()"
-#set( $pkElementsGetters = $fn.argumentsListWithGetter($uncapitalizedEntityName, $entity.keyAttributes) )
+
 ## --- Primary Key arguments, e.g. "customerCode, bookId"
 #set( $pkElementsVariables = $fn.argumentsList($entity.keyAttributes) )
+
 ## --- Primary Key request path, e.g. "customerCode && bookId != null"
 #set( $pkNotNull = "" )
 #foreach( $attribute in $entity.keyAttributes )
+#if( !$attribute.isPrimitiveType() )
 #if( $foreach.count > 1 )
 #set( $pkNotNull = "${pkNotNull} && " )
 #end
-#set( $pkNotNull = "${pkNotNull}${attribute.name}#if( $attribute.type == 'Integer' ) != null#end" )
+#set( $pkNotNull = "${pkNotNull}${attribute.name} != null" )
 #end
+#end
+
 ## --- Primary Key Path Variables, e.g. "String customerCode, Integer bookId"
 #set( $pkPathVariables = "" )
 #foreach( $attribute in $entity.keyAttributes )
@@ -50,7 +53,7 @@ import javax.faces.context.FacesContext;
 import org.demo.commons.FacesUtils;
 
 //--- Entities
-import ${recordPackage}.${entity.name}Record;
+import ${recordPackage}.${recordClass};
 #foreach( $ref in $referencedEntities )
 #if ( $ref != ${entity.name} )## to avoid multiple imports for the same entity
 import ${recordPackage}.${ref}Record;
@@ -64,14 +67,13 @@ import ${ROOT_PKG}.persistence.${entity.name}Persistence;
 import ${ROOT_PKG}.persistence.${ref}Persistence;
 #end
 #end
-
+import org.demo.persistence.commons.PersistenceServiceProvider;
 #if ( $referencedEntities.size() > 0 )
 //--- List Items 
 #end
 #foreach( $ref in $referencedEntities )
 import ${recordListItemPackage}.${ref}ListItem;
 #end
-
 
 /**
  * JSF controller for '${entity.name}' management.
@@ -81,22 +83,23 @@ public class ${entity.name}Controller implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	//--- for table of ${entity.name}
-	private List<${entity.name}Record> list${entity.name};
+	private List<${recordClass}> list${entity.name};
 	//--- Mode edition
-	private ${entity.name}Record ${uncapitalizedEntityName}Courant;
+	private ${recordClass} ${uncapitalizedEntityName}Courant;
 	//--- Mode edition
 	private boolean isUpdate;
 	//--- Main entity service
-    private ${entity.name}Persistence ${uncapitalizedEntityName}Service;
+    private ${entity.name}Persistence ${uncapitalizedEntityName}Service = PersistenceServiceProvider.getService(${entity.name}Persistence.class);
 	//--- Other service(s)
 #foreach( $ref in $referencedEntities )
 #if ( $ref != ${entity.name} )## to avoid multiple declarations for the same service
 
-    private ${ref}Persistence ${fn.uncapitalize(${ref})}Service;
+    private ${ref}Persistence ${fn.uncapitalize(${ref})}Service = PersistenceServiceProvider.getService(${ref}Persistence.class);
 	//--- atribut to use combo-box "items"
 	private static List<${ref}ListItem> list${ref}ListItem;
 #end
 #end
+
 	//--------------------------------------------------------------------------------------
 	/**
 	 * Default constructor
@@ -109,18 +112,27 @@ public class ${entity.name}Controller implements Serializable {
 		}
 #end
 		
-		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		this.list${entity.name} = this.${uncapitalizedEntityName}Service.findAll();
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		
+
+#set( $paramNotNull = "" )
+#foreach( $key in $entity.keyAttributes )
+		String ${key.name}Param = params.get("${key.name}");
+#if( $foreach.count > 1 )
+#set( $paramNotNull = "${paramNotNull} && " )
+#end
+#set( $paramNotNull = "${paramNotNull}${key.name}Param != null" )
+#end
+		if ($paramNotNull) {
+			// update mode
 #foreach( $key in $entity.keyAttributes )
 #if( ${key.type} == 'Integer' )
-		Integer ${key.name} = Integer.parseInt(params.get("${key.name}"));
+			Integer ${key.name} = Integer.parseInt(${key.name}Param);
 #else
-		${key.type} ${key.name} = params.get("${key.name}");
+			${key.type} ${key.name} = ${key.name}Param;
 #end
 #end
-		
-		if (${pkNotNull}) {
-			// update mode
 			this.${uncapitalizedEntityName}Courant = this.${uncapitalizedEntityName}Service.findById(${pkElementsVariables});
 			this.setUpdate(true);
 		} else {
@@ -134,7 +146,7 @@ public class ${entity.name}Controller implements Serializable {
 	 * method use in constructor and view page
 	 */
 	public void creatNew${entity.name}() {
-		this.${uncapitalizedEntityName}Courant = new ${entity.name}Record();
+		this.${uncapitalizedEntityName}Courant = new ${recordClass}();
 		this.setUpdate(false);
 	}
 
@@ -180,21 +192,24 @@ public class ${entity.name}Controller implements Serializable {
 	 * @return link to redirect after delete
 	 */
 	public String delete${entity.name}ById(${pkPathVariables}) {
-		this.${uncapitalizedEntityName}Service.deleteById(${pkElementsVariables});
-		return "${uncapitalizedEntityName}-list";
+		if (${pkNotNull}) {
+			this.${uncapitalizedEntityName}Service.deleteById(${pkElementsVariables});
+			return "${uncapitalizedEntityName}-list";
+		}
+		return "";
 	}
 
 	// Getter & Setter
 
-	public List<${entity.name}Record> getList${entity.name}() {
+	public List<${recordClass}> getList${entity.name}() {
 		return list${entity.name};
 	}
 
-	public ${entity.name}Record get${entity.name}Courant() {
+	public ${recordClass} get${entity.name}Courant() {
 		return ${uncapitalizedEntityName}Courant;
 	}
 
-	public void set${entity.name}Courant(${entity.name}Record ${uncapitalizedEntityName}Courant) {
+	public void set${entity.name}Courant(${recordClass} ${uncapitalizedEntityName}Courant) {
 		this.${uncapitalizedEntityName}Courant = ${uncapitalizedEntityName}Courant;
 	}
 
