@@ -3,10 +3,10 @@
 ##
 #set( $recordClass = "${entity.name}Record" )
 #set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
-
+##
 ## --- Primary Key arguments, e.g. "customerCode, bookId"
 #set( $pkElementsVariables = $fn.argumentsList($entity.keyAttributes) )
-
+##
 ## --- Primary Key request path, e.g. "customerCode && bookId != null"
 #set( $pkNotNull = "" )
 #foreach( $attribute in $entity.keyAttributes )
@@ -17,7 +17,7 @@
 #set( $pkNotNull = "${pkNotNull}${attribute.name} != null" )
 #end
 #end
-
+##
 ## --- Primary Key Path Variables, e.g. "String customerCode, Integer bookId"
 #set( $pkPathVariables = "" )
 #foreach( $attribute in $entity.keyAttributes )
@@ -28,10 +28,7 @@
 #end
 ##
 ## --- Referenced entities (e.g. "Book", "Country", "Author", ... )
-## #set( $referencedEntities = $tools.referencedEntityTypes($entity, $entity.attributes) )## All referenced entities (PK and NON PK)
-## #set( $referencedNonPKEntities = $tools.referencedEntityTypes($entity, $entity.nonKeyAttributes) )## Entities referenced by NON PK fields
 #set( $referencedEntities = $entity.referencedEntityTypes() )## All referenced entities (PK and NON PK)
-## #set( $referencedNonPKEntities = $entity.referencedEntityTypes($entity.nonKeyAttributes) )## Entities referenced by NON PK fields
 ## -----------------------------------------------------------------------------------------------------------------------------
 /*
  * Created on $today.date ( Time $today.time )
@@ -48,6 +45,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.demo.commons.FacesUtils;
@@ -79,24 +77,23 @@ import ${recordListItemPackage}.${ref}ListItem;
  * JSF controller for '${entity.name}' management.
  */
 @ManagedBean(name = "${entity.name}Controller")
+@ViewScoped
 public class ${entity.name}Controller implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	//--- for table of ${entity.name}
 	private List<${recordClass}> list${entity.name};
-	//--- Mode edition
+	//--- Main entity edit
 	private ${recordClass} ${uncapitalizedEntityName}Courant;
-	//--- Mode edition
+	//--- Edit or create mode
 	private boolean isUpdate;
 	//--- Main entity service
     private ${entity.name}Persistence ${uncapitalizedEntityName}Service = PersistenceServiceProvider.getService(${entity.name}Persistence.class);
 	//--- Other service(s)
 #foreach( $ref in $referencedEntities )
 #if ( $ref != ${entity.name} )## to avoid multiple declarations for the same service
-
+	//--- Service to use combo-box "items"
     private ${ref}Persistence ${fn.uncapitalize(${ref})}Service = PersistenceServiceProvider.getService(${ref}Persistence.class);
-	//--- atribut to use combo-box "items"
-	private static List<${ref}ListItem> list${ref}ListItem;
 #end
 #end
 
@@ -105,17 +102,9 @@ public class ${entity.name}Controller implements Serializable {
 	 * Default constructor
 	 */
 	public ${entity.name}Controller() {
-#foreach( $ref in $referencedEntities )
-
-		if (list${ref}ListItem == null) {
-			list${ref}ListItem = getListOf${ref}Items();
-		}
-#end
-		
 		this.list${entity.name} = this.${uncapitalizedEntityName}Service.findAll();
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		
-
+## sheck if params is not null
 #set( $paramNotNull = "" )
 #foreach( $key in $entity.keyAttributes )
 		String ${key.name}Param = params.get("${key.name}");
@@ -142,32 +131,16 @@ public class ${entity.name}Controller implements Serializable {
 	}
 
 	/**
-	 * if new "${entity.name}" is select 
-	 * method use in constructor and view page
+	 * If new "${entity.name}" is select 
+	 * Method use in constructor and view page
 	 */
 	public void creatNew${entity.name}() {
 		this.${uncapitalizedEntityName}Courant = new ${recordClass}();
 		this.setUpdate(false);
 	}
 
-#foreach( $ref in $referencedEntities )
-
 	/**
-	 * Populates the combo-box "items" for the referenced entity "$ref"
-	 * @param model
-	 */
-	private List<${ref}ListItem> getListOf${ref}Items() {
-		List<${ref}Record> list = ${fn.uncapitalize(${ref})}Service.findAll();
-		List<${ref}ListItem> items = new LinkedList<${ref}ListItem>();
-		for ( ${ref}Record $fn.uncapitalize(${ref}) : list ) {
-			items.add(new ${ref}ListItem( $fn.uncapitalize(${ref}) ) );
-		}
-		return items ;
-	}
-#end
-
-	/**
-	 * method to save entity "${entity.name}"
+	 * Method to save entity "${entity.name}"
 	 */
 	public void save${entity.name}() {
 		try {
@@ -187,7 +160,7 @@ public class ${entity.name}Controller implements Serializable {
 	}
 
 	/**
-	 * delete entity "${entity.name}" by ${pkElementsVariables}
+	 * Delete entity "${entity.name}" by ${pkElementsVariables}
 	 * @param ${pkElementsVariables}
 	 * @return link to redirect after delete
 	 */
@@ -198,6 +171,21 @@ public class ${entity.name}Controller implements Serializable {
 		}
 		return "";
 	}
+#foreach( $ref in $referencedEntities )
+
+	/**
+	 * Populates the combo-box "items" for the referenced entity "$ref"
+	 * @param model
+	 */
+	public List<${ref}ListItem> getListOf${ref}Items() {
+		List<${ref}Record> list = ${fn.uncapitalize(${ref})}Service.findAll();
+		List<${ref}ListItem> items = new LinkedList<${ref}ListItem>();
+		for ( ${ref}Record $fn.uncapitalize(${ref}) : list ) {
+			items.add(new ${ref}ListItem( $fn.uncapitalize(${ref}) ) );
+		}
+		return items ;
+	}
+#end
 
 	// Getter & Setter
 
@@ -220,10 +208,4 @@ public class ${entity.name}Controller implements Serializable {
 	public void setUpdate(boolean isUpdate) {
 		this.isUpdate = isUpdate;
 	}
-#foreach( $ref in $referencedEntities )
-
-	public static List<${ref}ListItem> getList${ref}ListItem() {
-		return list${ref}ListItem;
-	}
-#end
 }
