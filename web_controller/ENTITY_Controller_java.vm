@@ -50,7 +50,7 @@ import javax.faces.context.FacesContext;
 
 import org.demo.commons.FacesUtils;
 
-//--- Entities
+// --- Entities
 import ${recordPackage}.${recordClass};
 #foreach( $ref in $referencedEntities )
 #if ( $ref != ${entity.name} )## to avoid multiple imports for the same entity
@@ -58,7 +58,7 @@ import ${recordPackage}.${ref}Record;
 #end
 #end
 
-//--- Persistence services 
+// --- Persistence services 
 import ${ROOT_PKG}.persistence.${entity.name}Persistence;
 #foreach( $ref in $referencedEntities )
 #if ( $ref != ${entity.name} )## to avoid multiple imports for the same service
@@ -67,7 +67,7 @@ import ${ROOT_PKG}.persistence.${ref}Persistence;
 #end
 import org.demo.persistence.commons.PersistenceServiceProvider;
 #if ( $referencedEntities.size() > 0 )
-//--- List Items 
+// --- List Items 
 #end
 #foreach( $ref in $referencedEntities )
 import ${recordListItemPackage}.${ref}ListItem;
@@ -81,18 +81,18 @@ import ${recordListItemPackage}.${ref}ListItem;
 public class ${entity.name}Controller implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	//--- for table of ${entity.name}
+	// --- for table of ${entity.name}
 	private List<${recordClass}> list${entity.name};
-	//--- Main entity edit
+	// --- Main entity edit
 	private ${recordClass} ${uncapitalizedEntityName}Courant;
-	//--- Edit or create mode
+	// --- Edit or create mode
 	private boolean isUpdate;
-	//--- Main entity service
+	// --- Main entity service
     private ${entity.name}Persistence ${uncapitalizedEntityName}Service = PersistenceServiceProvider.getService(${entity.name}Persistence.class);
-	//--- Other service(s)
+	// --- Other service(s)
 #foreach( $ref in $referencedEntities )
 #if ( $ref != ${entity.name} )## to avoid multiple declarations for the same service
-	//--- Service to use combo-box "items"
+	// --- Service to use combo-box "items"
     private ${ref}Persistence ${fn.uncapitalize(${ref})}Service = PersistenceServiceProvider.getService(${ref}Persistence.class);
 #end
 #end
@@ -161,13 +161,18 @@ public class ${entity.name}Controller implements Serializable {
 
 	/**
 	 * Delete entity "${entity.name}" by ${pkElementsVariables}
+	 *
 	 * @param ${pkElementsVariables}
 	 * @return link to redirect after delete
 	 */
 	public String delete${entity.name}ById(${pkPathVariables}) {
 		if (${pkNotNull}) {
-			this.${uncapitalizedEntityName}Service.deleteById(${pkElementsVariables});
-			return "${uncapitalizedEntityName}-list";
+			try {
+				this.${uncapitalizedEntityName}Service.deleteById(${pkElementsVariables});
+				return "${uncapitalizedEntityName}-list";
+			} catch (Exception e) {
+				FacesUtils.addMessage(FacesMessage.SEVERITY_ERROR, null, e.getMessage(), "");
+			}
 		}
 		return "";
 	}
@@ -175,6 +180,7 @@ public class ${entity.name}Controller implements Serializable {
 
 	/**
 	 * Populates the combo-box "items" for the referenced entity "$ref"
+	 *
 	 * @param model
 	 */
 	public List<${ref}ListItem> getListOf${ref}Items() {

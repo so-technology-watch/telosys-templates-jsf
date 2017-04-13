@@ -19,4 +19,4 @@ delete=Supprimer $entity.name
 delete_confirm=Etes vous certain de vouloir supprimer Cette $entity.name ?
 
 ${SHARP}----- $entity.name erreur
-erreur_duplicate=Erreur : $entity.name existe d\u00e9j\u00e0
+erreur_duplicate=Erreur : $fn.argumentsList($entity.keyAttributes) existe d\u00e9j\u00e0

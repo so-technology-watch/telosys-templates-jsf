@@ -24,7 +24,7 @@ create_update=Cr\u00e9er/Modifier
 
 ${SHARP}----- title page list
 #foreach( $entity in $selectedEntities )
-list_$fn.uncapitalize($entity.name)_title=Liste des ${entity.name}
+list_$fn.uncapitalize($entity.name)_title=Liste ${entity.name}
 #end
 
 ${SHARP}----- alert 

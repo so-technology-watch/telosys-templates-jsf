@@ -25,6 +25,10 @@
 				<h1>
 					<h:outputText value="#{msg.list_${uncapitalizedEntityName}_title}" />
 				</h1>
+				<br />
+				<h:messages errorClass="alert alert-danger"
+					warnClass="alert alert-warning" infoClass="alert alert-success"
+					style="list-style-type:none;" globalOnly="true" />
 				<div class="taches table-responsive">
 					<div align="right">
 						<h:link outcome="${uncapitalizedEntityName}-manage" styleClass="btn btn-success">

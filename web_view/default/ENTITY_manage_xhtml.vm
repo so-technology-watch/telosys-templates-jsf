@@ -16,6 +16,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/views/default/template.xhtml">
@@ -39,7 +40,8 @@
 
 					<div class="col-md-8">
 						<h:selectOneMenu id="${formattedAttribute}" class="form-control"
-							label="#{msg${entity.name}.${formattedAttribute}}"#if( $attribute.isKeyElement() ) disabled="#{${entity.name}Controller.isUpdate}"
+							label="#{msg${entity.name}.${formattedAttribute}}"
+#if( $attribute.isKeyElement() )							disabled="#{${entity.name}Controller.isUpdate}"
 #end
 							value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${attribute.name}}"#if( $attribute.isNotNull() ) required="true"#end>
 #if( !$attribute.isNotNull() )							<f:selectItem itemValue="" itemLabel="#{null}" />
@@ -66,6 +68,8 @@
 						value="#{msg${entity.name}.${formattedAttribute}}#if( $attribute.isNotNull() ) *#end" for="${formattedAttribute}" />
 					<div class="col-md-10">
 						<h:inputText id="${formattedAttribute}" label="#{msg${entity.name}.${formattedAttribute}}"
+#if( $attribute.type == 'Date' )							p:placeholder="#{msg.date_format_pattern}"
+#end
 							value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${formattedAttribute}}"
 							class="form-control"#if( $attribute.isKeyElement() ) disabled="#{${entity.name}Controller.isUpdate}"#end#if( $attribute.isNotNull() ) required="true"#end>
 #if( $attribute.type == 'Date' )							<f:convertDateTime pattern="#{msg.date_format_pattern}" />
