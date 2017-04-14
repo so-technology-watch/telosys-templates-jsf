@@ -44,16 +44,16 @@
 #if( $attribute.isKeyElement() )							disabled="#{${entity.name}Controller.isUpdate}"
 #end
 							value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${attribute.name}}"#if( $attribute.isNotNull() ) required="true"#end>
-#if( !$attribute.isNotNull() )							<f:selectItem itemValue="" itemLabel="#{null}" />
-#end
+							<f:selectItem itemValue="0" itemLabel="" />
 							<f:selectItems
 								value="#{${entity.name}Controller.getListOf${attribute.referencedEntityName}Items()}" var="item"
 								itemValue="#{item.value}" itemLabel="#{item.label}" />
+							<f:ajax event="change" render="updateLink${attribute.name}" />
 						</h:selectOneMenu>
 						<h:message for="${formattedAttribute}" errorClass="alert-danger" />
 					</div>
 					<div class="col-md-2">
-						<h:link outcome="${fn.uncapitalize($attribute.referencedEntityName)}-manage" styleClass="btn btn-primary">
+						<h:link id="updateLink${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-manage" styleClass="btn btn-primary">
 							<f:param name="${attribute.referencedEntity.keyAttribute.name}"
 								value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${attribute.name}}" />
 							<span class="glyphicon glyphicon-circle-arrow-right" />

@@ -123,7 +123,12 @@ public class ${entity.name}Controller implements Serializable {
 #end
 #end
 			this.${uncapitalizedEntityName}Courant = this.${uncapitalizedEntityName}Service.findById(${pkElementsVariables});
-			this.setUpdate(true);
+			if(this.${uncapitalizedEntityName}Courant != null) {
+				this.setUpdate(true);
+			} else {
+				// creation mode
+				creatNew${entity.name}();
+			}
 		} else {
 			// creation mode
 			creatNew${entity.name}();
