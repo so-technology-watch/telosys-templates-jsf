@@ -12,7 +12,8 @@
 	<title>#{msg.app_name}</title>
 	<h:outputStylesheet library="webjars"
 		name="bootstrap/3.3.7-1/css/bootstrap.min-jsf.css" />
-	<h:outputScript library="webjars" name="jquery/1.11.1/jquery.js" />
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/validation.js"></script>
 </h:head>
 
 <h:body>

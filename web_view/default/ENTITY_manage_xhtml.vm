@@ -22,7 +22,7 @@
 <ui:composition template="/views/default/template.xhtml">
 	<ui:define name="body">
 		<div class="container">
-			<h:form>
+			<h:form id="form${entity.name}">
 				<h1>
 					<h:outputText value="#{msg${entity.name}.subscribe_title}" />
 				</h1>
@@ -44,23 +44,21 @@
 #if( $attribute.isKeyElement() )							disabled="#{${entity.name}Controller.isUpdate}"
 #end
 							value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${attribute.name}}"#if( $attribute.isNotNull() ) required="true"#end>
-							<f:selectItem itemValue="-1" itemLabel="" />
+							<f:selectItem itemValue="" itemLabel="" />
 							<f:selectItems
 								value="#{${entity.name}Controller.getListOf${attribute.referencedEntityName}Items()}" var="item"
 								itemValue="#{item.value}" itemLabel="#{item.label}" />
-							<f:ajax event="change" render="updateLink${attribute.name}" />
 						</h:selectOneMenu>
 						<h:message for="${formattedAttribute}" errorClass="alert-danger" />
 					</div>
 					<div class="col-md-2">
-						<h:link id="updateLink${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-manage" styleClass="btn btn-primary">
-							<f:param name="${attribute.referencedEntity.keyAttribute.name}"
-								disable="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${attribute.name} eq -1}"
-								value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${attribute.name}}" />
-							<span class="glyphicon glyphicon-circle-arrow-right" />
+						<a class="btn btn-primary"
+							onclick='gotoForeignKeyPage("form${entity.name}:redirecte${attribute.name}", "form${entity.name}:${formattedAttribute}", "${attribute.referencedEntity.keyAttribute.name}");'>
+							<span class="glyphicon glyphicon-circle-arrow-right" /> 
 							<h:outputText value=" #{msg.create_update}" />
-						</h:link>
+						</a>
 					</div>
+					<h:link id="redirecte${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-manage"/>
 				</div>
 
 #else
