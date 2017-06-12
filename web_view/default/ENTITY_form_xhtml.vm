@@ -58,7 +58,7 @@
 							<h:outputText value=" #{msg.create_update}" />
 						</a>
 					</div>
-					<h:link id="redirecte${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-manage"/>
+					<h:link id="redirecte${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-form"/>
 				</div>
 
 #else

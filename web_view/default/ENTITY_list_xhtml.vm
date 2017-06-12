@@ -31,7 +31,7 @@
 					style="list-style-type:none;" globalOnly="true" />
 				<div class="taches table-responsive">
 					<div align="right">
-						<h:link outcome="${uncapitalizedEntityName}-manage" styleClass="btn btn-success">
+						<h:link outcome="${uncapitalizedEntityName}-form" styleClass="btn btn-success">
 							<span class="glyphicon glyphicon-plus" />
 							<h:outputText value=" #{msg${entity.name}.add}" />
 						</h:link>
@@ -64,7 +64,7 @@
 							</f:facet>
 							<!-- Link for detail display -->
 							<div align="center">
-								<h:link outcome="${uncapitalizedEntityName}-manage" styleClass="btn btn-default">
+								<h:link outcome="${uncapitalizedEntityName}-form" styleClass="btn btn-default">
 #foreach( $key in $entity.keyAttributes )
 								<f:param name="${key.name}" value="#{item.${key.name}}" />
 #end

@@ -18,26 +18,26 @@
 			<var>msg</var>
 		</resource-bundle>
 
-	#foreach( $entity in $selectedEntities )
-	<resource-bundle>
+#foreach( $entity in $selectedEntities )
+		<resource-bundle>
 			<base-name>messages.messages${entity.name}</base-name>
 			<var>msg${entity.name}</var>
 		</resource-bundle>
-	#end
+#end
 
 	</application>
 
 	<!-- Navigation in Home Page -->
 	<navigation-rule>
 		<from-view-id>/views/index.xhtml</from-view-id>
-	#foreach( $entity in $selectedEntities )
+#foreach( $entity in $selectedEntities )
 #set( $uncapitalizedEntityName = ${fn.uncapitalize($entity.name)})
-	<navigation-case>
+		<navigation-case>
 			<from-outcome>${uncapitalizedEntityName}-list</from-outcome>
 			<to-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}List.xhtml</to-view-id>
 		</navigation-case>
-	#end
-</navigation-rule>
+#end
+	</navigation-rule>
 
 #foreach( $entity in $selectedEntities )
 #set( $uncapitalizedEntityName = ${fn.uncapitalize($entity.name)})
@@ -50,14 +50,14 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>${uncapitalizedEntityName}-manage</from-outcome>
-			<to-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}Manage.xhtml</to-view-id>
+			<from-outcome>${uncapitalizedEntityName}-form</from-outcome>
+			<to-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}Form.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
-	<!-- Navigation in ${entity.name} Manage -->
+	<!-- Navigation in ${entity.name} Form -->
 	<navigation-rule>
-		<from-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}Manage.xhtml</from-view-id>
+		<from-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}Form.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>${uncapitalizedEntityName}-list</from-outcome>
 			<to-view-id>/views/default/${entity.name}/${uncapitalizedEntityName}List.xhtml</to-view-id>
@@ -66,8 +66,8 @@
 #foreach( $attribut in $entity.attributes )
 #if( $attribut.isFK() )
 		<navigation-case>
-			<from-outcome>${fn.uncapitalize($attribut.referencedEntityName)}-manage</from-outcome>
-			<to-view-id>/views/default/${attribut.referencedEntityName}/${fn.uncapitalize($attribut.referencedEntityName)}Manage.xhtml</to-view-id>
+			<from-outcome>${fn.uncapitalize($attribut.referencedEntityName)}-form</from-outcome>
+			<to-view-id>/views/default/${attribut.referencedEntityName}/${fn.uncapitalize($attribut.referencedEntityName)}Form.xhtml</to-view-id>
 		</navigation-case>
 #end
 #end
