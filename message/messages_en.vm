@@ -5,7 +5,7 @@ ${SHARP}------------------------------------------------------------------------
 
 
 ${SHARP}----- Format patterns
-date_format_pattern=dd/MM/yyyy
+date_format_pattern=yyyy-MM-dd
 
 ${SHARP}----- Global messages 
 app_name=Application JSF
@@ -28,5 +28,7 @@ list_$fn.uncapitalize($entity.name)_title=List of ${entity.name}
 #end
 
 ${SHARP}----- alert 
+yes=Yes
+no=No
 createOK=element create 
 updateOK=element update

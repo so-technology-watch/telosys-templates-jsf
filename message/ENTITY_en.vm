@@ -5,7 +5,7 @@ ${SHARP}------------------------------------------------------------------------
 
 
 ${SHARP}----- $entity.name messages
-subscribe_title=Inscription
+subscribe_title=$entity.name information
 
 ${SHARP}----- $entity.name attributs
 #foreach( $field in ${entity.attributes} )

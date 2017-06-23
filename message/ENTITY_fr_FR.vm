@@ -5,7 +5,7 @@ ${SHARP}------------------------------------------------------------------------
 
 
 ${SHARP}----- $entity.name messages
-subscribe_title=Inscription
+subscribe_title=information $entity.name
 
 ${SHARP}----- $entity.name attributs
 #foreach( $field in ${entity.attributes} )
@@ -16,7 +16,7 @@ ${SHARP}----- $entity.name actions
 add=Ajouter $entity.name
 detail=Afficher les details
 delete=Supprimer $entity.name
-delete_confirm=Etes vous certain de vouloir supprimer Cette $entity.name ?
+delete_confirm=Etes vous certain de vouloir supprimer Ce/Cette $entity.name ?
 
 ${SHARP}----- $entity.name erreur
 erreur_duplicate=Erreur : $fn.argumentsList($entity.keyAttributes) existe d\u00e9j\u00e0

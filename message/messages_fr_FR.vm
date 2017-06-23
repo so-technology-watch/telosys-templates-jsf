@@ -28,6 +28,8 @@ list_$fn.uncapitalize($entity.name)_title=Liste ${entity.name}
 #end
 
 ${SHARP}----- alert 
+yes=Oui
+no=Non
 createOK=\u00e9l\u00e9ment cr\u00e9er
 updateOK=\u00e9l\u00e9ment mis \u00e0 jour
 

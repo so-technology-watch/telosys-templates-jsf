@@ -16,8 +16,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-<ui:composition template="/views/default/template.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/views/primefaces/template.xhtml">
 
 	<ui:define name="body">
 		<h:form>
@@ -26,9 +27,7 @@
 					<h:outputText value="#{msg.list_${uncapitalizedEntityName}_title}" />
 				</h1>
 				<br />
-				<h:messages errorClass="alert alert-danger"
-					warnClass="alert alert-warning" infoClass="alert alert-success"
-					style="list-style-type:none;" globalOnly="true" />
+				<p:messages globalOnly="true" />
 				<div class="taches table-responsive">
 					<div align="right">
 						<h:link outcome="${uncapitalizedEntityName}-form" styleClass="btn btn-success">
@@ -37,13 +36,11 @@
 						</h:link>
 					</div>
 					<br />
-					<h:dataTable
-						value="#{${entity.name}Controller.list${entity.name}}" var="item"
-						styleClass="table table-bordered" headerClass="order-table-header"
-						rowClasses="order-table-odd-row,order-table-even-row">
+					<p:dataTable
+						value="#{${entity.name}Controller.list${entity.name}}" var="item">
 #foreach( $attribute in ${entity.attributes} )
 #set( $formattedAttribute = ${attribute.formattedName(0)} )
-						<h:column>
+						<p:column sortBy="#{item.${formattedAttribute}}">
 							<!-- column header -->
 							<f:facet name="header">
 								<h:outputText value="#{msg${entity.name}.${formattedAttribute}}" />
@@ -51,14 +48,15 @@
 							<!-- column content -->
 #if( $attribute.type == 'Date' ) 
 							<h:outputText value="#{item.${formattedAttribute}}">
-								<f:convertDateTime pattern="#{msg.date_format_pattern}" />
+								<!-- GMT+2 to avoid changing the date -->
+								<f:convertDateTime pattern="#{msg.date_format_pattern}" timeZone="GMT+2" />
 							</h:outputText>
 #else
 		    				#{item.${formattedAttribute}}
 #end
-		    			</h:column>
+		    			</p:column>
 #end
-						<h:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText value="#{msg.edit}" />
 							</f:facet>
@@ -71,22 +69,23 @@
 									<span class="glyphicon glyphicon-edit" />
 								</h:link>
 							</div>
-						</h:column>
-						<h:column>
+						</p:column>
+						<p:column>
 							<f:facet name="header">
 								<h:outputText value="#{msg.delete}" />
 							</f:facet>
 							<!-- Link to display the delete button -->
 							<div align="center">
-								<h:commandLink title="#{msg${entity.name}.delete}"
-									styleClass="btn btn-danger"
-									action="#{${entity.name}Controller.delete${entity.name}ById(${pkItemVariables})}"
-									onclick="return confirm('#{msg${entity.name}.delete_confirm}');">
+								<p:commandLink title="#{msg${entity.name}.delete}" process="@this"
+									update="@form" styleClass="btn btn-danger"
+									action="#{${entity.name}Controller.delete${entity.name}ById(${pkItemVariables})}">
+									<p:confirm header="#{msg.delete}"
+										message="#{msg${entity.name}.delete_confirm}" icon="ui-icon-alert" />
 									<span class="glyphicon glyphicon-trash btn-md" />
-								</h:commandLink>
+								</p:commandLink>
 							</div>
-						</h:column>
-					</h:dataTable>
+						</p:column>
+					</p:dataTable>
 				</div>
 			</div>
 		</h:form>

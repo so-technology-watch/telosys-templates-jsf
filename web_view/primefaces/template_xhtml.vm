@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <f:view locale="#{LanguageController.locale}" />
 
@@ -38,6 +39,13 @@
 				</td>
 			</tr>
 		</table>
+
+		<p:confirmDialog global="true">
+			<p:commandButton value="#{msg.yes}" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="#{msg.no}" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
 	</h:form>
 
 	<ui:insert name="body">
