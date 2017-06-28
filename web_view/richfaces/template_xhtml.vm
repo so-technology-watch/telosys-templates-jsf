@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:r="http://richfaces.org/rich">
+
+<f:view locale="#{LanguageController.locale}" />
+
+<h:head>
+	<meta charset="UTF-8" />
+	<title>#{msg.app_name}</title>
+	<h:outputStylesheet library="webjars"
+		name="bootstrap/3.3.7-1/css/bootstrap.min-jsf.css" />
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/redirect.js" />
+</h:head>
+
+<h:body>
+	<h:form styleClass="form-inline">
+		<table class="table table-striped">
+			<tr>
+				<td><h:link outcome="/views/index">
+						<div class="btn-lg">
+							<span class="glyphicon glyphicon-home" />
+							<h:outputText value=" #{msg.home_back}" />
+						</div>
+					</h:link></td>
+				<td>
+					<div align="right">
+						<h:outputText value="#{msg.language}: " />
+						<h:selectOneMenu class="form-control" style="width:auto;"
+							value="#{LanguageController.localeCode}" onchange="submit()"
+							valueChangeListener="#{LanguageController.countryLocaleCodeChanged}">
+							<f:selectItems value="#{LanguageController.countriesInMap}" />
+						</h:selectOneMenu>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</h:form>
+
+	<ui:insert name="body">
+	</ui:insert>
+
+	<ui:insert name="script">
+	</ui:insert>
+</h:body>
+</html>
