@@ -30,7 +30,7 @@
 				</h1>
 				<br />
 				<r:messages globalOnly="true" />
-
+				<br />
 #foreach( $attribute in ${entity.attributes} )
 #set( $formattedAttribute = ${attribute.formattedName(0)} )
 #if( $attribute.isFK() )
@@ -64,7 +64,7 @@
 #else
 				<div class="form-group row">
 					<h:outputText styleClass="col-md-2 col-form-label"
-						value="#{msg${entity.name}.${formattedAttribute}}" for="${formattedAttribute}" />
+						value="#{msg${entity.name}.${formattedAttribute}}#if( $attribute.isNotNull() ) *#end" for="${formattedAttribute}" />
 					<div class="col-md-10">
 #if( $attribute.type == 'Date' )
 						<r:calendar id="${formattedAttribute}"
@@ -103,19 +103,19 @@
 							</a4j:commandLink>
 						</div>
 						<div class="col-xs-2">
-							<a4j:commandLink styleClass="btn btn-success" 
+							<h:commandLink styleClass="btn btn-success" 
 								rendered="#{${entity.name}Controller.isUpdate}"
 								action="#{${entity.name}Controller.creatNew${entity.name}}">
 								<span class="glyphicon glyphicon-plus-sign btn-md" />
 								<h:outputText value=" #{msg.create}" />
-							</a4j:commandLink>
+							</h:commandLink>
 						</div>
 						<div class="col-xs-2">
-							<a4j:commandLink styleClass="btn btn-primary" 
+							<h:commandLink styleClass="btn btn-primary" 
 								action="#{${entity.name}Controller.save${entity.name}}">
 								<span class="glyphicon glyphicon-saved btn-md" />
 								<h:outputText value=" #{msg.save}" />
-							</a4j:commandLink>
+							</h:commandLink>
 						</div>
 					</div>
 				</div>
