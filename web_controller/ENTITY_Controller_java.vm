@@ -118,6 +118,8 @@ public class ${entity.name}Controller implements Serializable {
 #foreach( $key in $entity.keyAttributes )
 #if( ${key.type} == 'Integer' )
 			Integer ${key.name} = Integer.parseInt(${key.name}Param);
+#elseif( ${key.type} == 'Short' )
+			Short ${key.name} = Short.parseShort(${key.name}Param);
 #else
 			${key.type} ${key.name} = ${key.name}Param;
 #end
