@@ -29,9 +29,10 @@ And then run in terminal :
 ~ mvn clean install
 ```
 
-Or for eclipse users :
+Or for eclipse users execut :
 
-blablabla
+* Maven clean
+* Maven install
 
 This will install all the dependencies used by the templates.
 
