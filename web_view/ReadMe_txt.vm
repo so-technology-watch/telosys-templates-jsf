@@ -1,3 +1,0 @@
-Defining which type of JSF implementation (default | richfaces | primefaces) on the wait.
-Example (For a "primefaces" implementation):
--Denv.type.impl.jsf = "primefaces"

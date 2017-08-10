@@ -27,9 +27,10 @@
 
 	</application>
 
+
 	<!-- Navigation in Home Page -->
 	<navigation-rule>
-		<from-view-id>/views/index.xhtml</from-view-id>
+		<from-view-id>/views/default/index.xhtml</from-view-id>
 #foreach( $entity in $selectedEntities )
 #set( $uncapitalizedEntityName = ${fn.uncapitalize($entity.name)})
 		<navigation-case>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition
+	template="/views/default/template.xhtml">
+
+	<ui:define name="body">
+		<div class="container">
+			<div class="accueil text-left">
+				<h1>
+					<h:outputText value="#{msg.home_wel}" />
+				</h1>
+				<p>
+					<h:outputText value="#{msg.app_name}" />
+				</p>
+				<p>
+					<ul>
+#foreach( $entity in $selectedEntities )
+#set( $uncapitalizedEntityName = ${fn.uncapitalize($entity.name)})
+            			<li><h:link value="#{msg.list_${uncapitalizedEntityName}_title}"
+								outcome="${uncapitalizedEntityName}-list" /></li>
+#end
+					</ul>
+
+				</p>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>
+</html>

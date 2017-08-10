@@ -21,7 +21,7 @@
 	<h:form styleClass="form-inline">
 		<table class="table table-striped">
 			<tr>
-				<td><h:link outcome="/views/index">
+				<td><h:link outcome="/views/richfaces/index.xhtml">
 						<div class="btn-lg">
 							<span class="glyphicon glyphicon-home" />
 							<h:outputText value=" #{msg.home_back}" />
