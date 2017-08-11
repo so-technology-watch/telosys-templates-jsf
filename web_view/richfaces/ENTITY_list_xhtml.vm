@@ -51,8 +51,7 @@
 							<!-- column content -->
 #if( $attribute.type == 'Date' ) 
 							<h:outputText value="#{item.${formattedAttribute}}">
-								<!-- GMT+2 to avoid changing the date -->
-								<f:convertDateTime pattern="#{msg.date_format_pattern}" timeZone="GMT+2" />
+								<f:convertDateTime pattern="#{msg.date_format_pattern}" />
 							</h:outputText>
 #else
 		    				#{item.${formattedAttribute}}
