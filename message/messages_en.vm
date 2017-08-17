@@ -32,3 +32,5 @@ yes=Yes
 no=No
 createOK=element create 
 updateOK=element update
+saveKO=Save failed
+deleteKO=Delete failed

@@ -29,7 +29,7 @@
 					<h:outputText value="#{msg${entity.name}.subscribe_title}" />
 				</h1>
 				<br />
-				<r:messages globalOnly="true" />
+				<r:messages globalOnly="true" showDetail="true" />
 				<br />
 #foreach( $attribute in ${entity.attributes} )
 #set( $formattedAttribute = ${attribute.formattedName(0)} )

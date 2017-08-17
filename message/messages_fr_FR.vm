@@ -14,7 +14,7 @@ home_back=Retour \u00e0 la page d'accueil
 home_wel=Bienvenue
 language=Langue
 
-${SHARP}----- Global variable 
+${SHARP}----- Global variable
 edit=Modifier
 delete=Supprimer
 create=Cr\u00e9er
@@ -32,4 +32,5 @@ yes=Oui
 no=Non
 createOK=\u00e9l\u00e9ment cr\u00e9er
 updateOK=\u00e9l\u00e9ment mis \u00e0 jour
-
+saveKO=Echec de la sauvegarde
+deleteKO=Echec de la suppression

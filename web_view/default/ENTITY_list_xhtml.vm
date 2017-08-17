@@ -29,7 +29,7 @@
 				<br />
 				<h:messages errorClass="alert alert-danger"
 					warnClass="alert alert-warning" infoClass="alert alert-success"
-					style="list-style-type:none;" globalOnly="true" />
+					style="list-style-type:none;" globalOnly="true" showDetail="true" />
 				<div class="taches table-responsive">
 					<div align="right">
 						<h:link outcome="${uncapitalizedEntityName}-form" styleClass="btn btn-success">

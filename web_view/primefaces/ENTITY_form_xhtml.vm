@@ -28,7 +28,7 @@
 					<h:outputText value="#{msg${entity.name}.subscribe_title}" />
 				</h1>
 				<br />
-				<p:messages globalOnly="true" />
+				<p:messages globalOnly="true" showDetail="true" />
 
 #foreach( $attribute in ${entity.attributes} )
 #set( $formattedAttribute = ${attribute.formattedName(0)} )

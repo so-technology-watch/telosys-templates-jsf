@@ -28,7 +28,7 @@
 					<h:outputText value="#{msg.list_${uncapitalizedEntityName}_title}" />
 				</h1>
 				<br />
-				<p:messages globalOnly="true" />
+				<p:messages globalOnly="true" showDetail="true" />
 				<div class="taches table-responsive">
 					<div align="right">
 						<h:link outcome="${uncapitalizedEntityName}-form" styleClass="btn btn-success">
