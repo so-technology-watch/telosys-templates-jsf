@@ -55,8 +55,7 @@
 					<div class="col-md-2">
 						<a class="btn btn-primary"
 							onclick='gotoForeignKeyPage("form${entity.name}:redirecte${attribute.name}", "form${entity.name}:${formattedAttribute}", "${attribute.referencedEntity.keyAttribute.name}");'>
-							<span class="glyphicon glyphicon-circle-arrow-right" /> 
-							<h:outputText value=" #{msg.create_update}" />
+							<span class="glyphicon glyphicon glyphicon-share" /> 
 						</a>
 					</div>
 					<h:link id="redirecte${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-form"/>

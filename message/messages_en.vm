@@ -14,22 +14,21 @@ home_back=Back to the homepage
 home_wel=welcome
 language=language
 
-${SHARP}----- Global variable 
+${SHARP}----- Global variable
+yes=Yes
+no=No
 edit=Edit
 delete=Delete
 create=Create
 cancel=Cancel
 save=Save
-create_update=Create/Update
 
 ${SHARP}----- title page list
 #foreach( $entity in $selectedEntities )
 list_$fn.uncapitalize($entity.name)_title=List of ${entity.name}
 #end
 
-${SHARP}----- alert 
-yes=Yes
-no=No
+${SHARP}----- message
 createOK=element create 
 updateOK=element update
 saveKO=Save failed

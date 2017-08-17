@@ -15,21 +15,20 @@ home_wel=Bienvenue
 language=Langue
 
 ${SHARP}----- Global variable
+yes=Oui
+no=Non
 edit=Modifier
 delete=Supprimer
 create=Cr\u00e9er
 cancel=Fermer
 save=Enregistrer
-create_update=Cr\u00e9er/Modifier
 
 ${SHARP}----- title page list
 #foreach( $entity in $selectedEntities )
 list_$fn.uncapitalize($entity.name)_title=Liste ${entity.name}
 #end
 
-${SHARP}----- alert 
-yes=Oui
-no=Non
+${SHARP}----- message
 createOK=\u00e9l\u00e9ment cr\u00e9er
 updateOK=\u00e9l\u00e9ment mis \u00e0 jour
 saveKO=Echec de la sauvegarde
