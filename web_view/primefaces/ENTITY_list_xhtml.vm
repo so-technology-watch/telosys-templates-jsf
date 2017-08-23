@@ -41,18 +41,20 @@
 						value="#{${entity.name}Controller.list${entity.name}}" var="item">
 #foreach( $attribute in ${entity.attributes} )
 #set( $formattedAttribute = ${attribute.formattedName(0)} )
-						<p:column sortBy="#{item.${formattedAttribute}}">
+						<p:column#if( $attribute.inputType != 'password' ) sortBy="#{item.${formattedAttribute}}"#end >
 							<!-- column header -->
 							<f:facet name="header">
 								<h:outputText value="#{msg${entity.name}.${formattedAttribute}}" />
 							</f:facet>
 							<!-- column content -->
-#if( $attribute.type == 'Date' ) 
-							<h:outputText value="#{item.${formattedAttribute}}">
-								<f:convertDateTime pattern="#{msg.date_format_pattern}" />
-							</h:outputText>
+#if( $attribute.inputType == 'password' )
+							<p:password styleClass="btn-link" disabled="true"
+               					redisplay="true" value="#{item.${formattedAttribute}}" />
 #else
-		    				#{item.${formattedAttribute}}
+							<h:outputText value="#{item.${formattedAttribute}}">
+#if( $attribute.type == 'Date' ) 								<f:convertDateTime pattern="#{msg.date_format_pattern}" />
+#end
+							</h:outputText>
 #end
 		    			</p:column>
 #end

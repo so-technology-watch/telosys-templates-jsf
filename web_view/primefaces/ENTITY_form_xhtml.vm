@@ -56,7 +56,7 @@
 							<span class="glyphicon glyphicon glyphicon-share" /> 
 						</a>
 					</div>
-					<h:link id="redirecte${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-form"/>
+					<h:link id="redirecte${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-form" />
 				</div>
 
 #else
@@ -65,20 +65,17 @@
 						value="#{msg${entity.name}.${formattedAttribute}}" for="${formattedAttribute}" />
 					<div class="col-md-10">
 #if( $attribute.type == 'Date' )
-						<p:calendar id="${formattedAttribute}"
-							pattern="#{msg.date_format_pattern}"
-#if( $attribute.isNotNull() )							required="true"#end#if( $attribute.isKeyElement() ) disabled="#{${entity.name}Controller.isUpdate}"#end
-							label="#{msg${entity.name}.${formattedAttribute}}"
+						<p:calendar pattern="#{msg.date_format_pattern}"
+							#elseif( $attribute.inputType == 'password' )
+						<p:password #else
+						<p:inputText #end
+styleClass="form-control" id="${formattedAttribute}"
+							label="#{msg${entity.name}.${formattedAttribute}}"#if( $attribute.isNotNull() ) required="true"#end#if( $attribute.isKeyElement() ) disabled="#{${entity.name}Controller.isUpdate}"#end
+
 							value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${formattedAttribute}}" />
-#else
-						<p:inputText id="${formattedAttribute}" label="#{msg${entity.name}.${formattedAttribute}}"
-							value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${formattedAttribute}}"
-							styleClass="form-control"#if( $attribute.isKeyElement() ) disabled="#{${entity.name}Controller.isUpdate}"#end#if( $attribute.isNotNull() ) required="true"#end />
-#end
 						<p:message for="${formattedAttribute}" />
 					</div>
 				</div>
-
 
 #end
 #end

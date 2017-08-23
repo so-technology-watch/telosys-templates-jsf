@@ -58,7 +58,7 @@
 							<span class="glyphicon glyphicon glyphicon-share" /> 
 						</a>
 					</div>
-					<h:link id="redirecte${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-form"/>
+					<h:link id="redirecte${attribute.name}" outcome="${fn.uncapitalize($attribute.referencedEntityName)}-form" />
 				</div>
 
 #else
@@ -66,14 +66,15 @@
 					<h:outputLabel styleClass="col-md-2 col-form-label"
 						value="#{msg${entity.name}.${formattedAttribute}}#if( $attribute.isNotNull() ) *#end" for="${formattedAttribute}" />
 					<div class="col-md-10">
-						<h:inputText id="${formattedAttribute}" label="#{msg${entity.name}.${formattedAttribute}}"
+						#if( $attribute.inputType == 'password' )<h:inputSecret#else<h:inputText#end id="${formattedAttribute}" label="#{msg${entity.name}.${formattedAttribute}}"
 #if( $attribute.type == 'Date' )							p:placeholder="#{msg.date_format_pattern}"
 #end
 							value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${formattedAttribute}}"
 							class="form-control"#if( $attribute.isKeyElement() ) disabled="#{${entity.name}Controller.isUpdate}"#end#if( $attribute.isNotNull() ) required="true"#end>
 #if( $attribute.type == 'Date' )							<f:convertDateTime pattern="#{msg.date_format_pattern}" />
 #end
-						</h:inputText>
+						#if( $attribute.inputType == 'password' )</h:inputSecret>#else</h:inputText>#end
+
 						<h:message for="${formattedAttribute}" errorClass="alert-danger" />
 					</div>
 				</div>
