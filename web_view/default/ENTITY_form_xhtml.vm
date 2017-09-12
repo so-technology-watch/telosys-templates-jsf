@@ -24,9 +24,25 @@
 	<ui:define name="body">
 		<div class="container">
 			<h:form id="form${entity.name}">
-				<h1>
-					<h:outputText value="#{msg${entity.name}.subscribe_title}" />
-				</h1>
+				<div class="row">
+					<div class="col-xs-4">
+						<h1>
+							<h:outputText value="#{msg${entity.name}.subscribe_title}" />
+						</h1>
+					</div>
+					<div class="col-xs-1 col-xs-offset-5">
+						<h:link styleClass="btn btn-success" outcome="${uncapitalizedEntityName}-form"
+							rendered="#{${entity.name}Controller.isUpdate}">
+							<span class="glyphicon glyphicon-plus-sign btn-md" />
+						</h:link>
+					</div>
+					<div class="col-xs-2">
+						<h:link styleClass="btn btn-default" outcome="${uncapitalizedEntityName}-list">
+							<span class="glyphicon glyphicon-circle-arrow-left btn-md" />
+							<h:outputText value=" #{msg.list}" />
+						</h:link>
+					</div>
+				</div>
 				<br />
 				<h:messages errorClass="alert alert-danger"
 					warnClass="alert alert-warning" infoClass="alert alert-success"
@@ -83,37 +99,25 @@
 #end
 				<br />
 				<div class="row">
-					<div align="center">
-						<div class="col-xs-2  col-xs-offset-2">
-							<h:link styleClass="btn btn-default" outcome="${uncapitalizedEntityName}-list">
-								<span class="glyphicon glyphicon-circle-arrow-left btn-md" />
-								<h:outputText value=" #{msg.cancel}" />
-							</h:link>
-						</div>
-						<div class="col-xs-2">
-							<h:commandLink styleClass="btn btn-danger"
-								rendered="#{${entity.name}Controller.isUpdate}"
-								onclick="return confirm('#{msg${entity.name}.delete_confirm}');"
-								action="#{${entity.name}Controller.delete${entity.name}ById(${pkVariables})}">
-								<span class="glyphicon glyphicon-trash btn-md" />
-								<h:outputText value=" #{msg.delete}" />
-							</h:commandLink>
-						</div>
-						<div class="col-xs-2">
-							<h:commandLink styleClass="btn btn-success"
-								rendered="#{${entity.name}Controller.isUpdate}"
-								action="#{${entity.name}Controller.creatNew${entity.name}}">
-								<span class="glyphicon glyphicon-plus-sign btn-md" />
-								<h:outputText value=" #{msg.create}" />
-							</h:commandLink>
-						</div>
-						<div class="col-xs-2">
-							<h:commandLink styleClass="btn btn-primary"
-								action="#{${entity.name}Controller.save${entity.name}}">
-								<span class="glyphicon glyphicon-saved btn-md" />
-								<h:outputText value=" #{msg.save}" />
-							</h:commandLink>
-						</div>
+					<h:panelGroup rendered="#{!${entity.name}Controller.isUpdate}">
+						<div class="col-xs-1"/>
+					</h:panelGroup>
+					
+					<div class="col-xs-2 col-xs-offset-4">
+						<h:commandLink styleClass="btn btn-primary"
+							action="#{${entity.name}Controller.save${entity.name}}">
+							<span class="glyphicon glyphicon-saved btn-md" />
+							<h:outputText value=" #{msg.save}" />
+						</h:commandLink>
+					</div>
+					<div class="col-xs-2 col-xs-offset-1">
+						<h:commandLink styleClass="btn btn-danger"
+							rendered="#{${entity.name}Controller.isUpdate}"
+							onclick="return confirm('#{msg${entity.name}.delete_confirm}');"
+							action="#{${entity.name}Controller.delete${entity.name}ById(${pkVariables})}">
+							<span class="glyphicon glyphicon-trash btn-md" />
+							<h:outputText value=" #{msg.delete}" />
+						</h:commandLink>
 					</div>
 				</div>
 			</h:form>

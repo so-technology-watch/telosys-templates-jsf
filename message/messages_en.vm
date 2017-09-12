@@ -19,8 +19,7 @@ yes=Yes
 no=No
 edit=Edit
 delete=Delete
-create=Create
-cancel=Cancel
+list=List
 save=Save
 
 ${SHARP}----- title page list

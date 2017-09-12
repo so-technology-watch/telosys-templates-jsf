@@ -33,7 +33,6 @@
 					<div align="right">
 						<h:link outcome="${uncapitalizedEntityName}-form" styleClass="btn btn-success">
 							<span class="glyphicon glyphicon-plus" />
-							<h:outputText value=" #{msg${entity.name}.add}" />
 						</h:link>
 					</div>
 					<br />

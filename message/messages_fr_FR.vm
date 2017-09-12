@@ -19,8 +19,7 @@ yes=Oui
 no=Non
 edit=Modifier
 delete=Supprimer
-create=Cr\u00e9er
-cancel=Fermer
+list=Liste
 save=Enregistrer
 
 ${SHARP}----- title page list

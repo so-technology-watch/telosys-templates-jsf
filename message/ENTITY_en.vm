@@ -13,7 +13,6 @@ ${field.formattedName(0)}=${field.label}
 #end
 
 ${SHARP}----- $entity.name actions
-add=Add $entity.name
 detail=Show the details
 delete=Remove $entity.name
 delete_confirm=Are you sure you want to delete This $entity.name ?

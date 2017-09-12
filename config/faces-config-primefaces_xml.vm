@@ -60,6 +60,11 @@
 	<navigation-rule>
 		<from-view-id>/views/primefaces/${entity.name}/${uncapitalizedEntityName}Form.xhtml</from-view-id>
 		<navigation-case>
+			<from-outcome>${uncapitalizedEntityName}-form</from-outcome>
+			<to-view-id>/views/primefaces/${entity.name}/${uncapitalizedEntityName}Form.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>${uncapitalizedEntityName}-list</from-outcome>
 			<to-view-id>/views/primefaces/${entity.name}/${uncapitalizedEntityName}List.xhtml</to-view-id>
 			<redirect />
