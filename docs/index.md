@@ -1,6 +1,7 @@
 
 
 
+
 # JSF - Telosys 3 Template
 
 This template is used by [Telosys](http://www.telosys.org/) to generate a JSF (JavaServer Faces) which is a Java specification for web applications. You can find this template [here](https://github.com/so-technology-watch/telosys-templates-jsf).
@@ -42,18 +43,37 @@ You can manually add the dependancies used by the project into your original `po
 
 Refer to the [depencies part](#dependencies-used) of the documentation
 
+
+## Choose the JSF implementation
+
+In `main/webapp/WEB-INF/web.xml` you choose the JSF implementation by uncommenting the desired line for the implementation : 
+
+* jsf default
+* jsf primefaces
+* jsf richfaces
+
+```xml
+	<welcome-file-list>
+
+		<!-- <welcome-file>views/default/index.xhtml</welcome-file> -->
+		<welcome-file>views/primefaces/index.xhtml</welcome-file>
+		<!-- <welcome-file>views/richfaces/index.xhtml</welcome-file> -->
+
+	</welcome-file-list>
+	<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+
+		<!-- <param-value>WEB-INF/faces-config-default.xml</param-value> -->
+		<param-value>WEB-INF/faces-config-primefaces.xml</param-value>
+		<!-- <param-value>WEB-INF/faces-config-richfaces.xml</param-value> -->
+
+	</context-param>
+```
+By default, the primefaces implementation is selected
+
 ## Start the server
 
 After genereating and setting up your projet, you can run it through a Tomcat or Apach server.  
-This server must contain the argument : `-Denv.type.impl.jsf="default"`
-
-The value of this argument can be : 
-* jsf : `default`
-* jsf-primefaces : `primefaces`
-* jsf-richfaces : `richfaces`
-
-Example for Primefaces implementation :  
-`-Denv.type.impl.jsf="primefaces"`
 
 
 ## Dependencies used
