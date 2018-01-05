@@ -7,17 +7,6 @@
 ## --- Primary Key arguments, e.g. "customerCode, bookId"
 #set( $pkElementsVariables = $fn.argumentsList($entity.keyAttributes) )
 ##
-## --- Primary Key request path, e.g. "customerCode && bookId != null"
-#set( $pkNotNull = "" )
-#foreach( $attribute in $entity.keyAttributes )
-#if( !$attribute.isPrimitiveType() )
-#if( $foreach.count > 1 )
-#set( $pkNotNull = "${pkNotNull} && " )
-#end
-#set( $pkNotNull = "${pkNotNull}${attribute.name} != null" )
-#end
-#end
-##
 ## --- Primary Key Path Variables, e.g. "String customerCode, Integer bookId"
 #set( $pkPathVariables = "" )
 #foreach( $attribute in $entity.keyAttributes )
@@ -28,7 +17,7 @@
 #end
 ##
 ## --- Referenced entities (e.g. "Book", "Country", "Author", ... )
-#set( $referencedEntities = $entity.referencedEntityTypes() )## All referenced entities (PK and NON PK)
+#set( $referencedEntities = $entity.referencedEntityTypes() )## All referenced entities (PK and not PK)
 ## -----------------------------------------------------------------------------------------------------------------------------
 /*
  * Created on $today.date ( Time $today.time )
@@ -173,15 +162,12 @@ public class ${entity.name}Controller implements Serializable {
 	 * @return link to redirect after delete
 	 */
 	public String delete${entity.name}ById(${pkPathVariables}) {
-		if (${pkNotNull}) {
-			try {
-				this.${uncapitalizedEntityName}Service.deleteById(${pkElementsVariables});
-				return "${uncapitalizedEntityName}-list";
-			} catch (Exception e) {
-				FacesUtils.addMessage(FacesMessage.SEVERITY_ERROR, null, "deleteKO", e.getMessage());
-			}
+		try {
+			this.${uncapitalizedEntityName}Service.deleteById(${pkElementsVariables});
+			return "${uncapitalizedEntityName}-list";
+		} catch (Exception e) {
+			FacesUtils.addMessage(FacesMessage.SEVERITY_ERROR, null, "deleteKO", e.getMessage());
 		}
-		return "";
 	}
 #foreach( $ref in $referencedEntities )
 
