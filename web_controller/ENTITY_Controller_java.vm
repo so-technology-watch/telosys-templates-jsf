@@ -73,7 +73,7 @@ public class ${entity.name}Controller implements Serializable {
 	// --- for table of ${entity.name}
 	private List<${recordClass}> list${entity.name};
 	// --- Main entity edit
-	private ${recordClass} ${uncapitalizedEntityName}Courant;
+	private ${recordClass} ${uncapitalizedEntityName}Current;
 	// --- Edit or create mode
 	private boolean isUpdate;
 	// --- Main entity service
@@ -113,16 +113,16 @@ public class ${entity.name}Controller implements Serializable {
 			${key.type} ${key.name} = ${key.name}Param;
 #end
 #end
-			this.${uncapitalizedEntityName}Courant = this.${uncapitalizedEntityName}Service.findById(${pkElementsVariables});
-			if(this.${uncapitalizedEntityName}Courant != null) {
+			this.${uncapitalizedEntityName}Current = this.${uncapitalizedEntityName}Service.findById(${pkElementsVariables});
+			if(this.${uncapitalizedEntityName}Current != null) {
 				this.setUpdate(true);
 			} else {
 				// creation mode
-				creatNew${entity.name}();
+				createNew${entity.name}();
 			}
 		} else {
 			// creation mode
-			creatNew${entity.name}();
+			createNew${entity.name}();
 		}
 	}
 
@@ -130,8 +130,8 @@ public class ${entity.name}Controller implements Serializable {
 	 * If new "${entity.name}" is select 
 	 * Method use in constructor and view page
 	 */
-	public void creatNew${entity.name}() {
-		this.${uncapitalizedEntityName}Courant = new ${recordClass}();
+	public void createNew${entity.name}() {
+		this.${uncapitalizedEntityName}Current = new ${recordClass}();
 		this.setUpdate(false);
 	}
 
@@ -141,11 +141,11 @@ public class ${entity.name}Controller implements Serializable {
 	public void save${entity.name}() {
 		try {
 			if (isUpdate) {
-				this.${uncapitalizedEntityName}Service.update(${uncapitalizedEntityName}Courant);
+				this.${uncapitalizedEntityName}Service.update(${uncapitalizedEntityName}Current);
 				FacesUtils.addMessage(FacesMessage.SEVERITY_INFO, null, "updateOK", "");
 
 			} else {
-				this.${uncapitalizedEntityName}Service.create(${uncapitalizedEntityName}Courant);
+				this.${uncapitalizedEntityName}Service.create(${uncapitalizedEntityName}Current);
 				this.isUpdate = true;
 				FacesUtils.addMessage(FacesMessage.SEVERITY_INFO, null, "createOK", "");
 
@@ -167,6 +167,7 @@ public class ${entity.name}Controller implements Serializable {
 			return "${uncapitalizedEntityName}-list";
 		} catch (Exception e) {
 			FacesUtils.addMessage(FacesMessage.SEVERITY_ERROR, null, "deleteKO", e.getMessage());
+			return "";
 		}
 	}
 #foreach( $ref in $referencedEntities )
@@ -192,12 +193,12 @@ public class ${entity.name}Controller implements Serializable {
 		return list${entity.name};
 	}
 
-	public ${recordClass} get${entity.name}Courant() {
-		return ${uncapitalizedEntityName}Courant;
+	public ${recordClass} get${entity.name}Current() {
+		return ${uncapitalizedEntityName}Current;
 	}
 
-	public void set${entity.name}Courant(${recordClass} ${uncapitalizedEntityName}Courant) {
-		this.${uncapitalizedEntityName}Courant = ${uncapitalizedEntityName}Courant;
+	public void set${entity.name}Current(${recordClass} ${uncapitalizedEntityName}Current) {
+		this.${uncapitalizedEntityName}Current = ${uncapitalizedEntityName}Current;
 	}
 
 	public boolean getIsUpdate() {

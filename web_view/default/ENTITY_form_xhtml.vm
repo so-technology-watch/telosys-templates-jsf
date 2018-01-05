@@ -1,13 +1,13 @@
 ## #set( $tools = $loader.newInstance("Tools") )
 #set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
 ##
-## --- Primary Key arguments, e.g. "UserController.userCourant.customerCode, UserController.userCourant.bookId"
+## --- Primary Key arguments, e.g. "UserController.userCurrent.customerCode, UserController.userCurrent.bookId"
 #set( $pkVariables = "" )
 #foreach( $attribute in $entity.keyAttributes )
 #if( $foreach.count > 1 )
 #set( $pkVariables = "${pkVariables}, " )
 #end
-#set( $pkVariables = "${pkVariables}${entity.name}Controller.${uncapitalizedEntityName}Courant.$attribute.name" )
+#set( $pkVariables = "${pkVariables}${entity.name}Controller.${uncapitalizedEntityName}Current.$attribute.name" )
 #end
 ##--------------------------------------------------------------------------------------------------------
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -60,7 +60,7 @@
 							label="#{msg${entity.name}.${formattedAttribute}}"
 #if( $attribute.isKeyElement() )							disabled="#{${entity.name}Controller.isUpdate}"
 #end
-							value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${attribute.name}}"#if( $attribute.isNotNull() ) required="true"#end>
+							value="#{${entity.name}Controller.${uncapitalizedEntityName}Current.${attribute.name}}"#if( $attribute.isNotNull() ) required="true"#end>
 							<f:selectItem itemValue="" itemLabel="" />
 							<f:selectItems
 								value="#{${entity.name}Controller.getListOf${attribute.referencedEntityName}Items()}" var="item"
@@ -85,7 +85,7 @@
 						#if( $attribute.inputType == 'password' )<h:inputSecret#else<h:inputText#end id="${formattedAttribute}" label="#{msg${entity.name}.${formattedAttribute}}"
 #if( $attribute.type == 'Date' )							p:placeholder="#{msg.date_format_pattern}"
 #end
-							value="#{${entity.name}Controller.${uncapitalizedEntityName}Courant.${formattedAttribute}}"
+							value="#{${entity.name}Controller.${uncapitalizedEntityName}Current.${formattedAttribute}}"
 							class="form-control"#if( $attribute.isKeyElement() ) disabled="#{${entity.name}Controller.isUpdate}"#end#if( $attribute.isNotNull() ) required="true"#end>
 #if( $attribute.type == 'Date' )							<f:convertDateTime pattern="#{msg.date_format_pattern}" />
 #end
